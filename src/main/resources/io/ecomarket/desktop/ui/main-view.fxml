@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="io.ecomarket.desktop.ui.MainController"
+            styleClass="main-container">
+
+    <!-- Top Navigation & Brand Header -->
+    <top>
+        <VBox styleClass="header-bar">
+            <HBox alignment="CENTER_LEFT" spacing="14" styleClass="top-nav">
+                <padding>
+                    <Insets top="12" right="20" bottom="12" left="20"/>
+                </padding>
+
+                <!-- Brand Title -->
+                <VBox>
+                    <Label text="🌿 ecoMarket" styleClass="brand-logo"/>
+                    <Label text="Sustainable Desktop Commerce" styleClass="brand-subtitle"/>
+                </VBox>
+
+                <Region HBox.hgrow="ALWAYS"/>
+
+                <!-- Supabase Live Status Pill -->
+                <Label fx:id="connectionStatusLabel" text="Checking Supabase..." styleClass="status-pill"/>
+
+                <!-- Action Nav Buttons -->
+                <Button fx:id="listProductBtn" text="➕ List Product" onAction="#handleOpenAddProduct" styleClass="btn-nav-action"/>
+                <Button text="📦 My Orders" onAction="#handleOpenOrders" styleClass="btn-nav-outline"/>
+                <Button text="⚙️ Settings" onAction="#handleOpenSettings" styleClass="btn-nav-outline"/>
+
+                <!-- User Eco Points Pill -->
+                <HBox alignment="CENTER" styleClass="eco-points-badge" spacing="6">
+                    <Label text="🌱"/>
+                    <Label fx:id="userEcoPointsLabel" text="150 Eco-Points" styleClass="eco-points-text"/>
+                </HBox>
+            </HBox>
+
+            <!-- Search and Filter Bar -->
+            <HBox alignment="CENTER_LEFT" spacing="12" styleClass="filter-bar">
+                <padding>
+                    <Insets top="10" right="20" bottom="10" left="20"/>
+                </padding>
+                <TextField fx:id="searchField" promptText="🔍 Search sustainable products..." HBox.hgrow="ALWAYS" styleClass="search-box"/>
+                <ComboBox fx:id="categoryFilterCombo" prefWidth="190" promptText="Category" styleClass="filter-combo"/>
+                <ComboBox fx:id="conditionFilterCombo" prefWidth="160" promptText="Condition" styleClass="filter-combo"/>
+            </HBox>
+        </VBox>
+    </top>
+
+    <!-- Center: Product Catalog Grid -->
+    <center>
+        <ScrollPane fitToWidth="true" styleClass="catalog-scroll-pane">
+            <VBox spacing="15">
+                <padding>
+                    <Insets top="20" right="20" bottom="20" left="20"/>
+                </padding>
+                <HBox alignment="CENTER_LEFT">
+                    <Label text="Curated Sustainable Products" styleClass="section-heading"/>
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <Label text="Click any item for details &amp; reviews" styleClass="hint-label"/>
+                </HBox>
+                <FlowPane fx:id="productsGrid" hgap="16" vgap="16" prefWrapLength="700"/>
+            </VBox>
+        </ScrollPane>
+    </center>
+
+    <!-- Right: Shopping Cart & Environmental Impact Summary -->
+    <right>
+        <VBox prefWidth="350" spacing="12" styleClass="cart-sidebar">
+            <padding>
+                <Insets top="18" right="16" bottom="18" left="16"/>
+            </padding>
+
+            <HBox alignment="CENTER_LEFT">
+                <Label text="🛒 Shopping Cart" styleClass="cart-title"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Button text="Remove" onAction="#handleRemoveSelectedCartItem" styleClass="btn-secondary-sm"/>
+            </HBox>
+
+            <!-- Items Table -->
+            <TableView fx:id="cartTable" VBox.vgrow="ALWAYS" styleClass="cart-table">
+                <columns>
+                    <TableColumn fx:id="cartProductCol" text="Product" prefWidth="180"/>
+                    <TableColumn fx:id="cartQtyCol" text="Qty" prefWidth="45"/>
+                    <TableColumn fx:id="cartPriceCol" text="Price" prefWidth="75"/>
+                </columns>
+                <columnResizePolicy>
+                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                </columnResizePolicy>
+            </TableView>
+
+            <!-- Environmental Impact Card -->
+            <VBox styleClass="impact-card" spacing="8">
+                <padding>
+                    <Insets top="12" right="12" bottom="12" left="12"/>
+                </padding>
+                <Label text="🌍 Environmental Impact" styleClass="impact-title"/>
+                <HBox alignment="CENTER_LEFT">
+                    <Label text="CO2 Emissions Saved: " styleClass="impact-label"/>
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <Label fx:id="carbonSavedLabel" text="0.00 kg CO2" styleClass="impact-value-green"/>
+                </HBox>
+                <HBox alignment="CENTER_LEFT">
+                    <Label text="Eco-Points to Earn: " styleClass="impact-label"/>
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <Label fx:id="pointsEarnedLabel" text="+0 pts" styleClass="impact-value-amber"/>
+                </HBox>
+            </VBox>
+
+            <!-- Order Total -->
+            <HBox alignment="CENTER_LEFT">
+                <Label text="Total Amount:" styleClass="total-label"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Label fx:id="cartTotalLabel" text="$0.00" styleClass="total-value"/>
+            </HBox>
+
+            <Separator/>
+
+            <!-- Shipping Options -->
+            <VBox spacing="6">
+                <Label text="Delivery Method:" styleClass="field-label"/>
+                <ComboBox fx:id="deliveryMethodCombo" maxWidth="Infinity" styleClass="filter-combo"/>
+                <Label text="Shipping Address:" styleClass="field-label"/>
+                <TextField fx:id="addressField" promptText="Enter delivery address..." styleClass="search-box"/>
+            </VBox>
+
+            <!-- Checkout Action -->
+            <Button fx:id="checkoutButton" text="Proceed to Eco-Checkout" maxWidth="Infinity" onAction="#handleCheckout" styleClass="btn-checkout" disable="true"/>
+        </VBox>
+    </right>
+</BorderPane>

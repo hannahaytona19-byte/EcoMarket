@@ -1,0 +1,12 @@
+# Supabase Connection Settings
+# 1. Direct PostgreSQL Connection (via Pooler or Direct)
+# For Supabase, your connection string looks like:
+# jdbc:postgresql://aws-0-us-east-1.pooler.supabase.com:6543/postgres?sslmode=require
+# Or direct: jdbc:postgresql://db.<project-ref>.supabase.co:5432/postgres?sslmode=require
+SUPABASE_DB_URL=jdbc:postgresql://db.your-project-ref.supabase.co:5432/postgres?sslmode=require
+SUPABASE_DB_USER=postgres
+SUPABASE_DB_PASSWORD=your_supabase_db_password
+
+# 2. Supabase REST & Auth API
+SUPABASE_URL=https://your-project-ref.supabase.co
+SUPABASE_ANON_KEY=eyJhbGciOi...your_anon_key
