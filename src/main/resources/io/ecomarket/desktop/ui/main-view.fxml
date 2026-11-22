@@ -30,6 +30,7 @@
                 <!-- Action Nav Buttons -->
                 <Button fx:id="listProductBtn" text="➕ List Product" onAction="#handleOpenAddProduct" styleClass="btn-nav-action"/>
                 <Button text="📦 My Orders" onAction="#handleOpenOrders" styleClass="btn-nav-outline"/>
+                <Button fx:id="authBtn" text="👤 Account" onAction="#handleOpenAuth" styleClass="btn-nav-outline"/>
                 <Button text="⚙️ Settings" onAction="#handleOpenSettings" styleClass="btn-nav-outline"/>
 
                 <!-- User Eco Points Pill -->

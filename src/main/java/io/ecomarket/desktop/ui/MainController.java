@@ -21,6 +21,7 @@ import io.ecomarket.desktop.service.AuthService;
 import io.ecomarket.desktop.service.CartService;
 import io.ecomarket.desktop.service.OrderService;
 import io.ecomarket.desktop.ui.dialog.AddProductDialog;
+import io.ecomarket.desktop.ui.dialog.AuthDialog;
 import io.ecomarket.desktop.ui.dialog.OrdersDialog;
 import io.ecomarket.desktop.ui.dialog.ProductDetailDialog;
 import io.ecomarket.desktop.ui.dialog.SettingsDialog;
@@ -248,6 +249,18 @@ public class MainController {
         User u = AuthService.getInstance().getCurrentUser();
         OrdersDialog dialog = new OrdersDialog(u, orderRepo);
         dialog.showAndWait();
+    }
+
+    @FXML
+    private void handleOpenAuth() {
+        AuthDialog dialog = new AuthDialog();
+        dialog.showAndWait().ifPresent(user -> {
+            updateUserBadge();
+            if (addressField != null && user.getAddress() != null) {
+                addressField.setText(user.getAddress());
+            }
+            showAlert(Alert.AlertType.INFORMATION, "Welcome", "Signed in as " + user.getFullName() + " (" + user.getRole() + ")");
+        });
     }
 
     @FXML

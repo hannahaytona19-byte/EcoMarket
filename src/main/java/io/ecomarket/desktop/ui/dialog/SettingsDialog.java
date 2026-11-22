@@ -9,6 +9,7 @@ import io.ecomarket.desktop.service.AuthService;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 public class SettingsDialog extends Dialog<Void> {
@@ -48,6 +49,23 @@ public class SettingsDialog extends Dialog<Void> {
             a.showAndWait();
         });
 
+        Button migrateBtn = new Button("Apply Supabase Schema & Seed Data");
+        migrateBtn.setStyle("-fx-background-color: #1b5e20; -fx-text-fill: white; -fx-font-weight: bold;");
+        migrateBtn.setOnAction(e -> {
+            if (!DatabaseManager.isAvailable()) {
+                Alert a = new Alert(Alert.AlertType.WARNING, "Supabase connection is not available. Please verify credentials in supabase.properties first.");
+                a.showAndWait();
+                return;
+            }
+            boolean success = io.ecomarket.desktop.config.DatabaseMigrator.migrate();
+            Alert a = new Alert(success ? Alert.AlertType.INFORMATION : Alert.AlertType.ERROR);
+            a.setTitle("Migration Result");
+            a.setContentText(success ? "Database tables, RLS policies, and seed data applied successfully to Supabase!" : "Migration encountered errors. Check application logs for details.");
+            a.showAndWait();
+        });
+
+        HBox btnRow = new HBox(10, testConnBtn, migrateBtn);
+
         // Demo User Switcher
         VBox userBox = new VBox(8);
         userBox.setStyle("-fx-background-color: #f5f5f5; -fx-padding: 12; -fx-background-radius: 6;");
@@ -81,7 +99,7 @@ public class SettingsDialog extends Dialog<Void> {
         });
 
         userBox.getChildren().addAll(userHeading, personaCombo, switchBtn);
-        content.getChildren().addAll(dbGrid, testConnBtn, new Separator(), userBox);
+        content.getChildren().addAll(dbGrid, btnRow, new Separator(), userBox);
         getDialogPane().setContent(content);
     }
 }
