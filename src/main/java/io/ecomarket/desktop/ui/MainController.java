@@ -45,6 +45,7 @@ public class MainController {
     @FXML private TextField searchField;
     @FXML private ComboBox<String> conditionFilterCombo;
     @FXML private ComboBox<String> categoryFilterCombo;
+    @FXML private ComboBox<String> sortCombo;
     @FXML private FlowPane productsGrid;
 
     // Cart pane components
@@ -75,6 +76,7 @@ public class MainController {
 
         auth.currentUserProperty().addListener((obs, oldU, newU) -> {
             if (newU != null) {
+                cartService.setCurrentUser(newU);
                 updateUserBadge();
                 if (addressField != null && newU.getAddress() != null) {
                     addressField.setText(newU.getAddress());
@@ -92,6 +94,9 @@ public class MainController {
         }
         categoryFilterCombo.setValue("ALL CATEGORIES");
 
+        sortCombo.getItems().addAll("Featured / Newest", "Price: Low to High", "Price: High to Low", "Highest CO2 Saved");
+        sortCombo.setValue("Featured / Newest");
+
         deliveryMethodCombo.getItems().setAll(DeliveryMethod.values());
         deliveryMethodCombo.setValue(DeliveryMethod.GREEN_COURIER);
 
@@ -107,6 +112,7 @@ public class MainController {
         searchField.textProperty().addListener((obs, oldVal, newVal) -> loadProducts());
         conditionFilterCombo.valueProperty().addListener((obs, oldVal, newVal) -> loadProducts());
         categoryFilterCombo.valueProperty().addListener((obs, oldVal, newVal) -> loadProducts());
+        sortCombo.valueProperty().addListener((obs, oldVal, newVal) -> loadProducts());
 
         // Initial products load
         loadProducts();
@@ -174,7 +180,18 @@ public class MainController {
             }
         }
 
-        List<Product> products = productRepo.filter(keyword, catId, cond);
+        List<Product> products = new java.util.ArrayList<>(productRepo.filter(keyword, catId, cond));
+
+        // Apply sorting
+        String sortChoice = sortCombo != null ? sortCombo.getValue() : "Featured / Newest";
+        if ("Price: Low to High".equals(sortChoice)) {
+            products.sort(java.util.Comparator.comparing(Product::getPrice));
+        } else if ("Price: High to Low".equals(sortChoice)) {
+            products.sort(java.util.Comparator.comparing(Product::getPrice).reversed());
+        } else if ("Highest CO2 Saved".equals(sortChoice)) {
+            products.sort(java.util.Comparator.comparing(Product::getCarbonSavedKg, java.util.Comparator.nullsLast(java.util.Comparator.reverseOrder())));
+        }
+
         productsGrid.getChildren().clear();
 
         for (Product product : products) {

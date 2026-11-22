@@ -4,13 +4,16 @@ import io.ecomarket.desktop.repository.OrderRepository;
 import io.ecomarket.desktop.schema.entity.Order;
 import io.ecomarket.desktop.schema.entity.OrderItem;
 import io.ecomarket.desktop.schema.entity.User;
+import io.ecomarket.desktop.service.ReceiptExporter;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 
+import java.io.File;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -75,8 +78,32 @@ public class OrdersDialog extends Dialog<Void> {
 
                 cardHeader.getChildren().addAll(num, statusBadge, sp, total);
 
+                HBox cardFooter = new HBox(10);
+                cardFooter.setStyle("-fx-alignment: center-left; -fx-padding: 4 0 0 0;");
                 Label details = new Label(String.format("Delivery: %s  |  CO2 Saved: %.2f kg", o.getDeliveryMethod(), o.getTotalCarbonSavedKg()));
                 details.setStyle("-fx-font-size: 11px; -fx-text-fill: #616161;");
+                HBox.setHgrow(details, Priority.ALWAYS);
+
+                Button exportBtn = new Button("📄 Eco-Receipt & Certificate");
+                exportBtn.setStyle("-fx-background-color: #f1f8e9; -fx-text-fill: #2e7d32; -fx-font-size: 11px; -fx-font-weight: bold; -fx-border-color: #a5d6a7; -fx-border-radius: 4; -fx-cursor: hand;");
+                exportBtn.setOnAction(e -> {
+                    FileChooser chooser = new FileChooser();
+                    chooser.setTitle("Save Eco-Receipt");
+                    chooser.setInitialFileName("ecoMarket_Receipt_" + o.getOrderNumber() + ".html");
+                    chooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("HTML Document (*.html)", "*.html"));
+                    File target = chooser.showSaveDialog(getDialogPane().getScene().getWindow());
+                    if (target != null) {
+                        try {
+                            ReceiptExporter.saveReceiptToFile(o, target);
+                            Alert a = new Alert(Alert.AlertType.INFORMATION, "Receipt saved successfully to " + target.getName());
+                            a.showAndWait();
+                        } catch (Exception ex) {
+                            Alert a = new Alert(Alert.AlertType.ERROR, "Failed to save receipt: " + ex.getMessage());
+                            a.showAndWait();
+                        }
+                    }
+                });
+                cardFooter.getChildren().addAll(details, exportBtn);
 
                 // Line items
                 VBox itemsBox = new VBox(2);
@@ -89,7 +116,7 @@ public class OrdersDialog extends Dialog<Void> {
                     itemsBox.getChildren().add(line);
                 }
 
-                card.getChildren().addAll(cardHeader, details, itemsBox);
+                card.getChildren().addAll(cardHeader, cardFooter, itemsBox);
                 orderList.getChildren().add(card);
             }
         }

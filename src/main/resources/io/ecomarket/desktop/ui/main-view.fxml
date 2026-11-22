@@ -48,6 +48,7 @@
                 <TextField fx:id="searchField" promptText="🔍 Search sustainable products..." HBox.hgrow="ALWAYS" styleClass="search-box"/>
                 <ComboBox fx:id="categoryFilterCombo" prefWidth="190" promptText="Category" styleClass="filter-combo"/>
                 <ComboBox fx:id="conditionFilterCombo" prefWidth="160" promptText="Condition" styleClass="filter-combo"/>
+                <ComboBox fx:id="sortCombo" prefWidth="170" promptText="Sort By" styleClass="filter-combo"/>
             </HBox>
         </VBox>
     </top>
