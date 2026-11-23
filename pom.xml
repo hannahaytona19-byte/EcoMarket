@@ -9,7 +9,7 @@
     <artifactId>ecomarket-desktop</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <name>ecoMarket Desktop</name>
-    <description>Sustainable E-Commerce JavaFX Desktop Application backed by Supabase</description>
+    <description>EcoMarket - frontend-only JavaFX marketplace prototype (FXML + CSS + mock data)</description>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -21,6 +21,10 @@
         <slf4j.version>2.0.12</slf4j.version>
         <logback.version>1.5.3</logback.version>
         <jakarta.persistence.version>3.1.0</jakarta.persistence.version>
+
+        <!-- Brand / installer settings (icons live in src/main/resources/assets/icons). -->
+        <jpackage.version>1.0.0</jpackage.version>
+        <jpackage.icon>${project.basedir}/src/main/resources/assets/icons/ecomarket.ico</jpackage.icon>
     </properties>
 
     <dependencies>
@@ -109,6 +113,21 @@
                 </configuration>
             </plugin>
 
+            <!-- Adds Implementation-Version so the About dialog matches the POM. -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.4.2</version>
+                <configuration>
+                    <archive>
+                        <manifestEntries>
+                            <Implementation-Title>EcoMarket</Implementation-Title>
+                            <Implementation-Version>${project.version}</Implementation-Version>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
+            </plugin>
+
             <!-- JavaFX Maven Plugin for running the desktop app -->
             <plugin>
                 <groupId>org.openjfx</groupId>
@@ -119,7 +138,7 @@
                         <!-- Default configuration for running with: mvn javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>io.ecomarket.desktop.EcoMarketApp</mainClass>
+                            <mainClass>com.ecomarket.app.Main</mainClass>
                         </configuration>
                     </execution>
                 </executions>
@@ -133,4 +152,104 @@
             </plugin>
         </plugins>
     </build>
+
+    <!--
+      Native installer packaging. Opt in with -DdesktopInstaller so normal
+      `mvn test` / `mvn javafx:run` never need jpackage or platform SDKs.
+      The OS-specific profile below picks ecomarket.ico or ecomarket.icns.
+    -->
+    <profiles>
+        <profile>
+            <id>installer-windows</id>
+            <activation>
+                <property><name>desktopInstaller</name></property>
+                <os><family>windows</family></os>
+            </activation>
+            <properties>
+                <jpackage.icon>${project.basedir}/src/main/resources/assets/icons/ecomarket.ico</jpackage.icon>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>installer-mac</id>
+            <activation>
+                <property><name>desktopInstaller</name></property>
+                <os><family>mac</family></os>
+            </activation>
+            <properties>
+                <jpackage.icon>${project.basedir}/src/main/resources/assets/icons/ecomarket.icns</jpackage.icon>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>desktop-installer</id>
+            <activation>
+                <property><name>desktopInstaller</name></property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-dependency-plugin</artifactId>
+                        <version>3.6.1</version>
+                        <executions>
+                            <execution>
+                                <id>copy-jpackage-dependencies</id>
+                                <phase>prepare-package</phase>
+                                <goals><goal>copy-dependencies</goal></goals>
+                                <configuration>
+                                    <outputDirectory>${project.build.directory}/jpackage-input</outputDirectory>
+                                    <includeScope>runtime</includeScope>
+                                    <overWriteReleases>true</overWriteReleases>
+                                    <overWriteSnapshots>true</overWriteSnapshots>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <!-- Put the app jar beside its runtime dependencies for jpackage. -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-jar-plugin</artifactId>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/jpackage-input</outputDirectory>
+                        </configuration>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>com.github.akman</groupId>
+                        <artifactId>jpackage-maven-plugin</artifactId>
+                        <version>0.1.5</version>
+                        <executions>
+                            <execution>
+                                <id>build-installer</id>
+                                <phase>verify</phase>
+                                <goals><goal>jpackage</goal></goals>
+                                <configuration>
+                                    <name>EcoMarket</name>
+                                    <appversion>${jpackage.version}</appversion>
+                                    <vendor>EcoMarket</vendor>
+                                    <description>EcoMarket — Reuse. Resell. Rehome.</description>
+                                    <copyright>Copyright 2026 EcoMarket</copyright>
+                                    <input>${project.build.directory}/jpackage-input</input>
+                                    <mainjar>${project.build.finalName}.jar</mainjar>
+                                    <mainclass>com.ecomarket.app.Main</mainclass>
+                                    <icon>${jpackage.icon}</icon>
+                                    <dest>${project.build.directory}/jpackage</dest>
+                                    <type>PLATFORM</type>
+                                    <winmenu>true</winmenu>
+                                    <winmenugroup>EcoMarket</winmenugroup>
+                                    <winshortcut>true</winshortcut>
+                                    <winperuserinstall>true</winperuserinstall>
+                                    <winupgradeuuid>8CF81762-0B19-46A6-875E-1F839A1700D0</winupgradeuuid>
+                                    <macpackageidentifier>io.ecomarket.desktop</macpackageidentifier>
+                                    <macpackagename>EcoMarket</macpackagename>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>

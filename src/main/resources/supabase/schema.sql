@@ -1,6 +1,6 @@
-# ==============================================================================
-# ecoMarket — Supabase (PostgreSQL) DDL Schema & Row Level Security (RLS)
-# ==============================================================================
+-- ==============================================================================
+-- ecoMarket — Supabase (PostgreSQL) DDL Schema & Row Level Security (RLS)
+-- ==============================================================================
 
 -- Enable UUID extension
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
@@ -178,3 +178,32 @@ INSERT INTO products (product_id, seller_id, category_id, title, description, pr
 ('p0000003-0000-0000-0000-000000000003', 'u0000002-0000-0000-0000-000000000002', 3, 'Refurbished E-Reader (6-inch Display, 8GB)', 'Factory refurbished digital paper reader with warm light and long battery life. Keeps electronics out of landfills.', 69.99, 8, 'REFURBISHED', 'E-Waste Saver', 14.50, 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600'),
 ('p0000004-0000-0000-0000-000000000004', 'u0000002-0000-0000-0000-000000000002', 4, 'Handmade Coconut & Lavender Solid Shampoo Bar', 'Zero-plastic hair cleansing bar that replaces up to three bottles of standard liquid shampoo. Vegan and sulfate-free.', 9.75, 60, 'NEW', 'Zero-Waste', 1.80, 'https://images.unsplash.com/photo-1608248597359-0744c84918e6?w=600')
 ON CONFLICT (product_id) DO NOTHING;
+
+-- Realign the SERIAL sequence with the explicit category seed IDs.
+SELECT setval(pg_get_serial_sequence('categories', 'category_id'), GREATEST(COALESCE((SELECT MAX(category_id) FROM categories), 1), 1), true);
+
+INSERT INTO cart_items (cart_item_id, user_id, product_id, quantity) VALUES -- demo buyer's saved items
+('c0000001-0000-0000-0000-000000000001', 'u0000001-0000-0000-0000-000000000001', 'p0000002-0000-0000-0000-000000000002', 1),
+('c0000002-0000-0000-0000-000000000002', 'u0000001-0000-0000-0000-000000000001', 'p0000003-0000-0000-0000-000000000003', 1)
+ON CONFLICT (user_id, product_id) DO NOTHING;
+
+INSERT INTO orders (order_id, order_number, buyer_id, total_amount, total_carbon_saved_kg, delivery_method, shipping_address, status, created_at) VALUES -- demo order history
+('o0000001-0000-0000-0000-000000000001', 'ECO-204318', 'u0000001-0000-0000-0000-000000000001', 66.25, 10.20, 'GREEN_COURIER', 'Green Avenue 12, Metro City', 'DELIVERED', NOW() - INTERVAL '12 days'),
+('o0000002-0000-0000-0000-000000000002', 'ECO-318742', 'u0000001-0000-0000-0000-000000000001', 101.99, 22.30, 'LOCAL_PICKUP', 'Green Avenue 12, Metro City', 'SHIPPED', NOW() - INTERVAL '4 days'),
+('o0000003-0000-0000-0000-000000000003', 'ECO-455120', 'u0000001-0000-0000-0000-000000000001', 19.50, 3.60, 'STANDARD', 'Green Avenue 12, Metro City', 'PENDING', NOW() - INTERVAL '1 day')
+ON CONFLICT (order_number) DO NOTHING;
+
+INSERT INTO order_items (order_item_id, order_id, product_id, quantity, unit_price) VALUES -- line items; totals match the seeded orders
+('i0000001-0000-0000-0000-000000000001', 'o0000001-0000-0000-0000-000000000001', 'p0000001-0000-0000-0000-000000000001', 2, 18.50),
+('i0000002-0000-0000-0000-000000000002', 'o0000001-0000-0000-0000-000000000001', 'p0000004-0000-0000-0000-000000000004', 3, 9.75),
+('i0000003-0000-0000-0000-000000000003', 'o0000002-0000-0000-0000-000000000002', 'p0000002-0000-0000-0000-000000000002', 1, 32.00),
+('i0000004-0000-0000-0000-000000000004', 'o0000002-0000-0000-0000-000000000002', 'p0000003-0000-0000-0000-000000000003', 1, 69.99),
+('i0000005-0000-0000-0000-000000000005', 'o0000003-0000-0000-0000-000000000003', 'p0000004-0000-0000-0000-000000000004', 2, 9.75)
+ON CONFLICT (order_item_id) DO NOTHING;
+
+INSERT INTO reviews (review_id, product_id, user_id, rating, comment, created_at) VALUES -- demo reviews (one per product/user pair)
+('r0000001-0000-0000-0000-000000000001', 'p0000001-0000-0000-0000-000000000001', 'u0000001-0000-0000-0000-000000000001', 5, 'Amazing quality beeswax wraps! They seal tightly over bowls and wash cleanly with cold water. Zero plastic needed!', NOW() - INTERVAL '10 days'),
+('r0000002-0000-0000-0000-000000000002', 'p0000002-0000-0000-0000-000000000002', 'u0000003-0000-0000-0000-000000000003', 4, 'The rescued denim is thick and beautifully stitched. The utility pockets are perfect for my gardening tools.', NOW() - INTERVAL '8 days'),
+('r0000003-0000-0000-0000-000000000003', 'p0000003-0000-0000-0000-000000000003', 'u0000001-0000-0000-0000-000000000001', 5, 'Refurbished reader works like new and the warm light is easy on the eyes. A great way to keep e-waste out of landfills.', NOW() - INTERVAL '5 days'),
+('r0000004-0000-0000-0000-000000000004', 'p0000004-0000-0000-0000-000000000004', 'u0000003-0000-0000-0000-000000000003', 4, 'Lovely lather and a subtle lavender scent. One bar really does replace several plastic bottles.', NOW() - INTERVAL '2 days')
+ON CONFLICT (product_id, user_id) DO NOTHING;

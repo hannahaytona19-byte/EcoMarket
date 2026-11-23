@@ -61,6 +61,28 @@ SUPABASE_ANON_KEY=YOUR_ANON_KEY
 mvn clean javafx:run
 ```
 
+> `javafx:run` now starts the **frontend-only prototype** (`com.ecomarket.app.Main`).
+> The original backend-oriented sources under `io.ecomarket.desktop` are still
+> present but are no longer the default launch target. If Maven is not on your
+> PATH, use `.\mvnw.cmd javafx:run`. Full prototype details are in
+> [`README_FRONTEND.md`](README_FRONTEND.md).
+
+### Assumptions for the prototype screens
+- **Schema alignment:** the active `com.ecomarket` prototype is offline, but its
+  User/Category/Listing models, seed data, categories, conditions, stock, eco
+  badges, carbon-saved values and image URLs now mirror `supabase/schema.sql`.
+  Meetup location, favorites and ACTIVE/SOLD listing status remain UI-only.
+- **Demo accounts:** schema seeds `buyer@ecomarket.io` / `password123` and
+  `artisan@ecomarket.io` / `password123`; the former `juan@ecomarket.ph` and
+  `elena@ecomarket.ph` aliases still work with `demo123`.
+- **Profile:** initials-only avatar, schema-backed eco points and verified flag,
+  and `Edit Profile` limited to first name, last name and location. Tabs show
+  My Listings and Saved Items from in-memory data.
+- **Seller Dashboard:** driven by the schema demo seller Eco Artisan Studio.
+  “Unread Messages” is derived from unread in-app notifications, and CO₂ Saved
+  sums active listings. Rows support Edit, Mark as Sold and Delete; “Post New
+  Item” uses mock photo placeholders, not file uploads.
+
 ---
 
 ## Domain Model
