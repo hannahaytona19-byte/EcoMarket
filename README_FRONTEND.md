@@ -36,39 +36,12 @@ src/main/java/com/ecomarket/
 ├── controller/ 12 small FXML controllers
 ├── model/      User, Listing, Category, ProductCondition, Conversation, Message, AppNotification
 ├── service/    MockDataService (all sample data + in-memory actions)
-├── ui/         BrandAssets (paths/sizes/colors) + LogoView (clickable badge)
-└── util/       UiUtil (cards, placeholders, currency, modal dialogs, About)
+├── ui/         LogoView (single reusable sprout + serif wordmark)
+└── util/       UiUtil (cards, placeholders, currency, modal dialogs)
 src/main/resources/
 ├── view/       12 FXML files
-├── css/        ecomarket.css (logo-matched green/cream tokens)
-├── img/        Legacy eco-market-logo.svg (no longer used by the UI)
-└── assets/
-    ├── images/ Transparent circular badge: source, 16–512 px, @2x for HiDPI
-    └── icons/  ecomarket.ico (Windows) and ecomarket.icns (macOS)
-```
-
-## Brand assets
-
-The supplied JPG-style badge was converted to a transparent PNG by flood-filling
-only the near-white area outside the circle, then cropped to the badge. Every
-placement loads through `com.ecomarket.ui.BrandAssets`, so swapping the artwork
-only means replacing the files in `src/main/resources/assets/`.
-
-- Splash: 256 px, shown for 700 ms before the landing page.
-- Login / Register card: 160 px, centred above the form.
-- Navbar / sidebar / footer: 40 px, clickable to home (dashboard when signed in).
-- About dialog: 128 px, with app name and `Implementation-Version` from the POM.
-- Window, taskbar and installer: `.ico` on Windows, `.icns` on macOS, PNG elsewhere.
-- High-DPI displays automatically select the `@2x` (1024 px) master.
-
-Tagline text is only rendered at large sizes; the sub-64 px placements use the
-whole badge as a mark rather than relying on wordmark legibility.
-
-Native packaging is opt-in (it needs the JDK `jpackage` tool plus platform tools
-such as WiX on Windows):
-
-```powershell
-.\mvnw.cmd -DdesktopInstaller verify
+├── css/        ecomarket.css (color tokens, buttons, cards, chips, sidebar…)
+└── img/        eco-market-logo.svg (source artwork for LogoView)
 ```
 
 ## Screen map

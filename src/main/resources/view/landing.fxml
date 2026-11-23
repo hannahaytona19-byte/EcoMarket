@@ -68,33 +68,33 @@
         </VBox>
 
         <!-- Categories -->
-        <VBox fx:id="categoriesSection" spacing="14" styleClass="section" alignment="CENTER">
-            <VBox spacing="4" alignment="CENTER">
-                <Label text="Shop by categories" styleClass="section-title" textAlignment="CENTER"/>
+        <VBox fx:id="categoriesSection" spacing="14" styleClass="section">
+            <VBox spacing="4">
+                <Label text="Shop by categories" styleClass="section-title"/>
                 <Label text="A little something for every corner of your home and life."
-                       styleClass="section-subtitle" textAlignment="CENTER"/>
+                       styleClass="section-subtitle"/>
             </VBox>
             <FlowPane fx:id="categoryFlow" hgap="12" vgap="12" prefWrapLength="900"
-                      alignment="CENTER"/>
+                      alignment="CENTER_LEFT"/>
         </VBox>
 
         <!-- How it works -->
         <VBox fx:id="howSection" spacing="14" styleClass="section spaced-section">
             <Label text="How it works" styleClass="section-title"/>
             <HBox spacing="18" styleClass="section-card-row">
-                <VBox spacing="8" styleClass="how-card" HBox.hgrow="ALWAYS">
+                <VBox spacing="8" styleClass="how-card">
                     <Label text="1" styleClass="step-number"/>
                     <Label text="Post" styleClass="card-title"/>
                     <Label text="Take clear photos, add a short description, and set your price."
                            styleClass="card-body"/>
                 </VBox>
-                <VBox spacing="8" styleClass="how-card" HBox.hgrow="ALWAYS">
+                <VBox spacing="8" styleClass="how-card">
                     <Label text="2" styleClass="step-number"/>
                     <Label text="Chat" styleClass="card-title"/>
                     <Label text="Message buyers or sellers to ask questions and agree on details."
                            styleClass="card-body"/>
                 </VBox>
-                <VBox spacing="8" styleClass="how-card" HBox.hgrow="ALWAYS">
+                <VBox spacing="8" styleClass="how-card">
                     <Label text="3" styleClass="step-number"/>
                     <Label text="Meetup" styleClass="card-title"/>
                     <Label text="Agree on a safe, public place and time to hand over the item."
@@ -107,17 +107,17 @@
         <VBox spacing="14" styleClass="section spaced-section">
             <Label text="Why EcoMarket?" styleClass="section-title"/>
             <HBox spacing="18" styleClass="section-card-row">
-                <VBox spacing="6" styleClass="why-card" HBox.hgrow="ALWAYS">
+                <VBox spacing="6" styleClass="why-card">
                     <Label text="Reduce waste" styleClass="card-title"/>
                     <Label text="Every item reused is one less thing in a landfill."
                            styleClass="card-body"/>
                 </VBox>
-                <VBox spacing="6" styleClass="why-card" HBox.hgrow="ALWAYS">
+                <VBox spacing="6" styleClass="why-card">
                     <Label text="Save and earn" styleClass="card-title"/>
                     <Label text="Find good items at low prices and earn from things you no longer use."
                            styleClass="card-body"/>
                 </VBox>
-                <VBox spacing="6" styleClass="why-card" HBox.hgrow="ALWAYS">
+                <VBox spacing="6" styleClass="why-card">
                     <Label text="Shop local" styleClass="card-title"/>
                     <Label text="Trade with people in your neighborhood and keep value in your community."
                            styleClass="card-body"/>

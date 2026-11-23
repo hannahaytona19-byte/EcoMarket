@@ -2,7 +2,6 @@ package com.ecomarket.controller;
 
 import com.ecomarket.app.SceneNavigator;
 import com.ecomarket.service.MockDataService;
-import com.ecomarket.ui.BrandAssets;
 import com.ecomarket.ui.LogoView;
 import javafx.fxml.FXML;
 
@@ -17,7 +16,7 @@ public class RoleSelectController {
 
     @FXML
     private void initialize() {
-        roleLogo.setLogoSize(BrandAssets.SIZE_ROLE);
+        roleLogo.setSize(46, 96);
         Object context = SceneNavigator.consumeContext();
         loginFlow = LOGIN_FLOW.equals(context);
     }

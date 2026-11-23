@@ -6,10 +6,9 @@
 /* ---------- Design tokens (JavaFX supports lookups via -fx- properties) ----- */
 .root {
     -eco-cream: #F8F6F0;
-    -eco-cream-accent: #F3EBC0;
     -eco-ink: #1F2A1F;
-    -eco-green: #2E9E1F;
-    -eco-green-dark: #0B4D12;
+    -eco-green: #4C8C2B;
+    -eco-green-dark: #2F6B2F;
     -eco-green-soft: #DDEBCF;
     -eco-gray: #D9D9D9;
     -eco-line: #1F2A1F;
@@ -37,14 +36,6 @@
 
 .logo-wordmark { -fx-font-size: 22px; -fx-font-weight: bold; }
 .logo-sprout { -fx-font-size: 22px; }
-.eco-logo { -fx-cursor: hand; }
-.splash-title {
-    -fx-font-family: Georgia, "Times New Roman", serif;
-    -fx-font-size: 34px;
-    -fx-font-weight: bold;
-    -fx-text-fill: -eco-green-dark;
-}
-.splash-tagline { -fx-font-size: 14px; -fx-text-fill: -eco-green-dark; }
 .hero-title { -fx-font-size: 44px; -fx-font-weight: bold; -fx-line-spacing: 4px; }
 .hero-subtitle { -fx-font-size: 16px; -fx-text-fill: #4A554A; }
 .section-title { -fx-font-size: 26px; -fx-font-weight: bold; }
@@ -79,7 +70,7 @@
     -fx-border-width: 1.5;
 }
 .button-primary:hover { -fx-background-color: -eco-green-dark; }
-.button-primary:pressed { -fx-background-color: -eco-green-dark; }
+.button-primary:pressed { -fx-background-color: #245224; }
 
 .button-secondary {
     -fx-background-color: transparent;
@@ -129,7 +120,7 @@
     -fx-border-width: 0 0 1 0;
     -fx-padding: 14 34 14 34;
 }
-.hero { -fx-padding: 54 60 28 60; }
+.hero { -fx-padding: 54 20 28 60; }
 .hero-copy { -fx-max-width: 560; }
 .hero-photos { -fx-padding: 4 0 0 0; }
 .section { -fx-padding: 40 60 12 60; }
@@ -151,10 +142,11 @@
     -fx-border-radius: 10;
     -fx-padding: 18;
 }
-.auth-card {
-    -fx-background-color: -eco-cream-accent;
-    -fx-padding: 30;
-    -fx-max-width: 440;
+.auth-card { -fx-padding: 30; -fx-max-width: 440; }
+.how-card, .why-card {
+    -fx-padding: 12 16;
+    -fx-pref-width: 240;
+    -fx-max-width: 260;
 }
 .form-card { -fx-padding: 26; }
 .role-card {
@@ -194,30 +186,32 @@
     -fx-border-color: transparent #D8D3C6 transparent transparent;
     -fx-border-width: 0 1 0 0;
     -fx-padding: 22 14 18 14;
-    -fx-spacing: 8;
+    -fx-spacing: 0;
 }
-.sidebar-brand { -fx-padding: 0 8 18 8; -fx-spacing: 8; -fx-alignment: center; }
+.sidebar-brand { -fx-padding: 0 8 26 8; -fx-spacing: 8; -fx-alignment: center; }
+.nav-list { -fx-alignment: top-left; -fx-fill-width: true; }
 .nav-item {
     -fx-background-color: transparent;
     -fx-border-color: transparent;
+    -fx-border-width: 1.2;
     -fx-text-fill: -eco-ink;
-    -fx-alignment: center;
-    -fx-padding: 10 8 10 8;
+    -fx-alignment: center-left;
+    -fx-padding: 10 12 10 12;
     -fx-font-size: 13px;
     -fx-font-weight: 600;
-}
-.nav-icon { -fx-alignment: center; -fx-text-alignment: center; }
-.nav-label { -fx-text-fill: -eco-ink; }
-.nav-item:hover { -fx-background-color: #EFEADF; -fx-background-radius: 8; }
-.nav-item-active {
-    -fx-background-color: -eco-green-soft;
-    -fx-border-color: -eco-green;
-    -fx-border-width: 1.2;
-    -fx-text-fill: -eco-green-dark;
     -fx-background-radius: 8;
     -fx-border-radius: 8;
 }
+.nav-icon { -fx-alignment: center-left; -fx-text-alignment: left; }
+.nav-label { -fx-text-fill: -eco-ink; }
+.nav-item:hover { -fx-background-color: #EFEADF; }
+.nav-item-active {
+    -fx-background-color: -eco-green-soft;
+    -fx-border-color: -eco-green;
+    -fx-text-fill: -eco-green-dark;
+}
 .nav-item-active .nav-label { -fx-text-fill: -eco-green-dark; }
+.sidebar-footer { -fx-spacing: 8; -fx-alignment: bottom-left; }
 .sidebar-tagline { -fx-text-fill: #6B756B; -fx-font-style: italic; -fx-wrap-text: true; }
 
 .topbar {
@@ -443,3 +437,223 @@
     -fx-padding: 12 20 14 20;
 }
 .filter-row .combo-box { -fx-font-size: 12px; }
+
+/* ---------- Auth screens: shared dark split-screen layout ------------------- */
+/*
+ * The leaf photo must be declared here, not in AuthLayoutController: any
+ * -fx-background-color rule in the stylesheet replaces the whole JavaFX
+ * Background object, which silently drops a programmatically added image.
+ * The gradient remains as a fallback if the JPEG is missing from the build.
+ */
+.auth-screen {
+    -fx-background-color: linear-gradient(to bottom, #0C3521 0%, #04120B 100%);
+    -fx-background-image: url("/img/auth-leaves.jpg");
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: cover;
+    -fx-font-family: "Segoe UI", "Arial", sans-serif;
+}
+
+/* Dark green veil: strong enough for white text, light enough for leaves. */
+.auth-backdrop-overlay {
+    -fx-background-color: linear-gradient(to bottom,
+            rgba(3, 24, 14, 0.62), rgba(3, 24, 14, 0.34));
+}
+
+.auth-back-row { -fx-padding: 22 26; }
+
+.auth-back {
+    -fx-background-color: rgba(255, 255, 255, 0.10);
+    -fx-border-color: rgba(255, 255, 255, 0.22);
+    -fx-border-width: 1;
+    -fx-background-radius: 22;
+    -fx-border-radius: 22;
+    -fx-padding: 8 16 8 16;
+    -fx-text-fill: white;
+    -fx-font-size: 13px;
+}
+.auth-back:hover { -fx-background-color: rgba(255, 255, 255, 0.20); }
+
+/* JavaFX has no backdrop-filter, so a translucent fill + soft border/shadow
+   approximates the glassmorphism look of the reference. */
+.auth-card-glass {
+    -fx-background-color: rgba(8, 38, 24, 0.62);
+    -fx-border-color: rgba(255, 255, 255, 0.18);
+    -fx-border-width: 1;
+    -fx-background-radius: 28;
+    -fx-border-radius: 28;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.35), 30, 0, 0, 10);
+}
+
+.auth-half { -fx-background-color: transparent; }
+.auth-info { -fx-background-color: rgba(5, 34, 20, 0.38); }
+.auth-form { -fx-background-color: rgba(2, 12, 8, 0.74); }
+.auth-info-content { -fx-padding: 48 44 48 44; }
+.auth-logo .logo-leaf { -fx-fill: white; -fx-stroke: white; }
+.auth-logo .logo-stem { -fx-stroke: white; }
+.auth-logo .logo-wordmark { -fx-fill: white; }
+
+.auth-info-heading {
+    -fx-font-family: Georgia, "Times New Roman", serif;
+    -fx-font-size: 40px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+}
+.auth-info-copy {
+    -fx-font-size: 15px;
+    -fx-text-fill: #D9E5DA;
+    -fx-line-spacing: 3px;
+}
+
+.auth-form-scroll {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-padding: 0;
+}
+.auth-form-scroll > .viewport { -fx-background-color: transparent; }
+.auth-form-body { -fx-padding: 48 44 48 44; -fx-max-width: 420; }
+
+.auth-form-title {
+    -fx-font-family: Georgia, "Times New Roman", serif;
+    -fx-font-size: 32px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+}
+.auth-field-label { -fx-font-size: 12px; -fx-font-weight: 600; -fx-text-fill: #D9E5DA; }
+.auth-error-label { -fx-text-fill: #FFB4A8; -fx-font-size: 12px; -fx-wrap-text: true; }
+
+/* Minimal underline inputs: transparent body, light bottom rule, white typing. */
+.auth-input {
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-border-color: transparent transparent rgba(255, 255, 255, 0.38) transparent;
+    -fx-border-width: 0 0 1 0;
+    -fx-text-fill: white;
+    -fx-prompt-text-fill: #B9CBB9;
+    -fx-highlight-fill: #4C8C2B;
+    -fx-highlight-text-fill: white;
+    -fx-padding: 8 0 8 0;
+    -fx-font-size: 14px;
+}
+.auth-input:focused {
+    -fx-border-color: transparent transparent #4ADE80 transparent;
+    -fx-border-width: 0 0 2 0;
+}
+
+.auth-primary {
+    -fx-background-color: #00804A;
+    -fx-text-fill: white;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-padding: 12 18 12 18;
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+}
+.auth-primary:hover { -fx-background-color: #009557; }
+.auth-primary:pressed { -fx-background-color: #00683C; }
+
+.auth-switch-row { -fx-padding: 6 0 0 0; }
+.auth-switch-text { -fx-text-fill: #C6D4C8; -fx-font-size: 13px; }
+.auth-switch-link {
+    -fx-text-fill: #5FD38F;
+    -fx-font-size: 13px;
+    -fx-underline: false;
+    -fx-padding: 0 2 0 2;
+}
+.auth-switch-link:hover { -fx-text-fill: #8CEAB4; -fx-underline: true; }
+
+/* Password reveal control (no extra dependency; plain text button). */
+.auth-password-row { -fx-spacing: 8; -fx-alignment: center-right; }
+.auth-eye-toggle {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent transparent rgba(255, 255, 255, 0.38) transparent;
+    -fx-border-width: 0 0 1 0;
+    -fx-text-fill: #C6D4C8;
+    -fx-font-size: 12px;
+    -fx-padding: 6 4 8 4;
+    -fx-min-width: 44;
+}
+.auth-eye-toggle:hover { -fx-text-fill: #5FD38F; }
+
+/* Inline validation sits directly under its field. */
+.auth-field-error {
+    -fx-text-fill: #FFB4A8;
+    -fx-font-size: 11px;
+    -fx-wrap-text: true;
+}
+
+/* ---------- Landing / role select: dark green companion theme --------------- */
+.landing-root {
+    -fx-background-color: linear-gradient(to bottom, #0C3521 0%, #04120B 100%);
+}
+.landing-root .navbar,
+.landing-root .footer {
+    -fx-background-color: rgba(4, 24, 14, 0.55);
+    -fx-border-color: rgba(255, 255, 255, 0.12);
+}
+.landing-root .hero-title,
+.landing-root .section-title,
+.landing-root .role-title,
+.landing-root .card-title { -fx-text-fill: white; }
+.landing-root .hero-subtitle,
+.landing-root .section-subtitle,
+.landing-root .card-body,
+.landing-root .role-card-copy,
+.landing-root .placeholder-caption { -fx-text-fill: #D9E5DA; }
+.landing-root .footer .section-subtitle { -fx-text-fill: #5FD38F; }
+.landing-root .nav-link { -fx-text-fill: #EAF3EA; }
+.landing-root .nav-link:hover { -fx-text-fill: #5FD38F; }
+.landing-root .step-number { -fx-text-fill: #5FD38F; }
+.landing-root .role-card,
+.landing-root .how-card,
+.landing-root .why-card,
+.landing-root .category-card {
+    -fx-background-color: rgba(8, 38, 24, 0.62);
+    -fx-border-color: rgba(255, 255, 255, 0.22);
+    -fx-border-width: 1;
+}
+.landing-root .role-card:hover,
+.landing-root .role-card:focused,
+.landing-root .how-card:hover,
+.landing-root .why-card:hover,
+.landing-root .category-card:hover {
+    -fx-background-color: rgba(0, 128, 74, 0.35);
+    -fx-border-color: #5FD38F;
+}
+.landing-root .button-secondary {
+    -fx-background-color: transparent;
+    -fx-text-fill: #EAF3EA;
+    -fx-border-color: #5FD38F;
+}
+.landing-root .button-secondary:hover { -fx-background-color: rgba(0, 128, 74, 0.30); }
+.landing-root .button-primary { -fx-background-color: #00804A; -fx-border-color: #0A8F4F; }
+.landing-root .button-primary:hover { -fx-background-color: #009557; }
+.landing-root .chip {
+    -fx-text-fill: #EAF3EA;
+    -fx-border-color: rgba(255, 255, 255, 0.35);
+}
+.landing-root .chip:hover { -fx-background-color: rgba(0, 128, 74, 0.35); }
+.landing-root .image-placeholder {
+    -fx-background-color: rgba(255, 255, 255, 0.06);
+    -fx-border-color: rgba(255, 255, 255, 0.18);
+}
+.landing-root .logo-leaf { -fx-fill: #5FD38F; -fx-stroke: white; }
+.landing-root .logo-stem { -fx-stroke: white; }
+.landing-root .logo-wordmark { -fx-fill: white; }
+
+/* ---------- Shared dark dialogs (title is always "EcoMarket") --------------- */
+.dialog-pane.eco-dialog {
+    -fx-background-color: #0B2A1B;
+    -fx-border-color: rgba(255, 255, 255, 0.18);
+    -fx-border-width: 1;
+}
+.dialog-pane.eco-dialog .header-panel { -fx-background-color: #0B2A1B; }
+.dialog-pane.eco-dialog .header-panel .label,
+.dialog-pane.eco-dialog .content.label { -fx-text-fill: #EAF3EA; }
+.dialog-pane.eco-dialog .button {
+    -fx-background-color: #00804A;
+    -fx-text-fill: white;
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+}
+.dialog-pane.eco-dialog .button:hover { -fx-background-color: #009557; }

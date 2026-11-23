@@ -2,8 +2,6 @@ package com.ecomarket.controller;
 
 import com.ecomarket.app.SceneNavigator;
 import com.ecomarket.model.Category;
-import com.ecomarket.service.MockDataService;
-import com.ecomarket.ui.BrandAssets;
 import com.ecomarket.ui.LogoView;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
@@ -19,6 +17,15 @@ import javafx.scene.layout.VBox;
 /** Landing page: hero, category shortcuts, explainer cards and footer. */
 public class LandingController {
 
+    /** Landing-only shortcuts; the browse screen still uses the schema categories. */
+    private static final Category[] LANDING_CATEGORIES = {
+            new Category(1, "Furniture", "🪑"),
+            new Category(2, "Clothing", "👕"),
+            new Category(3, "Home Décor", "🏠"),
+            new Category(4, "Electronics", "💻"),
+            new Category(5, "Vehicle", "🚗")
+    };
+
     @FXML private ScrollPane landingScroll;
     @FXML private LogoView headerLogo;
     @FXML private LogoView footerLogo;
@@ -33,10 +40,10 @@ public class LandingController {
 
     @FXML
     private void initialize() {
-        headerLogo.setLogoSize(BrandAssets.SIZE_HEADER);
-        footerLogo.setLogoSize(BrandAssets.SIZE_FOOTER);
+        headerLogo.setSize(20, 26);
+        footerLogo.setSize(18, 24);
 
-        for (Category category : MockDataService.getInstance().getCategories()) {
+        for (Category category : LANDING_CATEGORIES) {
             Button chip = new Button(category.getIcon() + "  " + category.getName());
             chip.getStyleClass().add("chip");
             chip.setOnAction(e -> SceneNavigator.navigateWithContext("browse", category.getName()));

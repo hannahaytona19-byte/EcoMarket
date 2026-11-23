@@ -1,6 +1,9 @@
 package com.ecomarket.app;
 
+import com.ecomarket.controller.AuthLayoutController;
 import com.ecomarket.controller.ShellController;
+import com.ecomarket.model.User;
+import com.ecomarket.service.MockDataService;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -23,8 +26,9 @@ public final class SceneNavigator {
     private static final Map<String, String> VIEWS = Map.ofEntries(
             Map.entry("landing", "landing.fxml"),
             Map.entry("role", "role-select.fxml"),
-            Map.entry("login", "login.fxml"),
-            Map.entry("register", "register.fxml"),
+            Map.entry("login", "auth-layout.fxml"),
+            Map.entry("register", "auth-layout.fxml"),
+            Map.entry("auth-layout", "auth-layout.fxml"),
             Map.entry("shell", "shell.fxml"),
             Map.entry("browse", "browse.fxml"),
             Map.entry("notifications", "notifications.fxml"),
@@ -38,10 +42,15 @@ public final class SceneNavigator {
     private static final Set<String> SHELL_ROUTES =
             Set.of("browse", "notifications", "messages", "profile", "seller");
 
+    /** Both auth routes share one mounted layout so the panels can slide. */
+    private static final Set<String> AUTH_ROUTES = Set.of("login", "register");
+
     private static Stage stage;
     private static Scene scene;
     private static Parent shellRoot;
     private static ShellController shell;
+    private static Parent authRoot;
+    private static AuthLayoutController auth;
     private static String shellRole = "BUYER";
     private static String currentRoute = "landing";
     private static Object pendingContext;
@@ -66,19 +75,6 @@ public final class SceneNavigator {
         return currentRoute;
     }
 
-    /** True while one of the logged-in shell screens is showing. */
-    public static boolean isShellActive() {
-        return shellRoot != null && scene != null && scene.getRoot() == shellRoot;
-    }
-
-    /** Route used by the clickable logo: dashboard when signed in, landing otherwise. */
-    public static String homeRoute() {
-        if (!isShellActive()) {
-            return "landing";
-        }
-        return "seller".equals(shellRole) ? "seller" : "browse";
-    }
-
     public static View loadView(String route) {
         String file = VIEWS.get(route);
         if (file == null) {
@@ -94,16 +90,23 @@ public final class SceneNavigator {
     }
 
     public static void navigate(String route) {
-        if (SHELL_ROUTES.contains(route)) {
-            String requiredRole = "seller".equals(route) ? "SELLER" : "BUYER";
-            if (shell == null || shellRoot == null
-                    || scene.getRoot() != shellRoot
-                    || !requiredRole.equals(shellRole)) {
+        if (AUTH_ROUTES.contains(route)) {
+            if (authRoot == null || scene.getRoot() != authRoot) {
+                View authView = loadView(route);
+                auth = (AuthLayoutController) authView.controller();
+                authRoot = authView.root();
+                scene.setRoot(authRoot);
+            }
+            // Same root: only the mode changes, so the slide/fade can run.
+            auth.show(route);
+        } else if (SHELL_ROUTES.contains(route)) {
+            if (shell == null || shellRoot == null || scene.getRoot() != shellRoot) {
+                String initialRole = initialShellRole(route);
                 View shellView = loadView("shell");
                 shell = (ShellController) shellView.controller();
                 shellRoot = shellView.root();
-                shellRole = requiredRole;
-                shell.setRole(requiredRole);
+                shellRole = initialRole;
+                shell.setRole(initialRole);
                 scene.setRoot(shellRoot);
             }
             shell.show(route);
@@ -112,6 +115,15 @@ public final class SceneNavigator {
             scene.setRoot(view.root());
         }
         currentRoute = route;
+    }
+
+    /** The shell's role is chosen once, from the active session or target route. */
+    private static String initialShellRole(String route) {
+        if ("seller".equals(route)) {
+            return "SELLER";
+        }
+        User user = MockDataService.getInstance().getCurrentUser();
+        return user != null && user.getRole() == User.Role.SELLER ? "SELLER" : "BUYER";
     }
 
     public static void navigateWithContext(String route, Object context) {
