@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.ecomarket.ui.LogoView?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<!--
+  ONE shared login/register component. SceneNavigator keeps this root mounted while
+  the mode changes, so the backdrop, glass card and back button never re-render.
+  Register = info left / form right; Login = form left / info right.
+-->
+<StackPane xmlns:fx="http://javafx.com/fxml/1"
+           fx:id="authScreen"
+           fx:controller="com.ecomarket.controller.AuthLayoutController"
+           styleClass="auth-screen">
+
+    <!-- Dark green gradient overlay; keeps text readable over any dropped-in leaf image. -->
+    <Region fx:id="backdropOverlay" styleClass="auth-backdrop-overlay" mouseTransparent="true"/>
+
+    <HBox StackPane.alignment="TOP_LEFT" styleClass="auth-back-row">
+        <Button text="← Back to Home" styleClass="auth-back" onAction="#onBack"/>
+    </HBox>
+
+    <Pane fx:id="authCard" styleClass="auth-card-glass" maxWidth="1040" maxHeight="640">
+        <StackPane fx:id="infoPane" styleClass="auth-half auth-info">
+            <VBox fx:id="infoContent" alignment="CENTER_LEFT" spacing="18"
+                  styleClass="auth-info-content">
+                <LogoView styleClass="auth-logo"/>
+                <Label fx:id="infoHeading" text="Welcome Back" styleClass="auth-info-heading"
+                       wrapText="true"/>
+                <Label fx:id="infoParagraph"
+                       text="Pick up where you left off and keep giving good things a second life."
+                       styleClass="auth-info-copy" wrapText="true"/>
+            </VBox>
+        </StackPane>
+
+        <StackPane fx:id="formPane" styleClass="auth-half auth-form">
+            <ScrollPane fitToWidth="true" styleClass="auth-form-scroll">
+                <StackPane fx:id="formContent" alignment="CENTER">
+                    <fx:include fx:id="loginForm" source="login-form.fxml"/>
+                    <fx:include fx:id="registerForm" source="register-form.fxml"/>
+                </StackPane>
+            </ScrollPane>
+        </StackPane>
+    </Pane>
+</StackPane>

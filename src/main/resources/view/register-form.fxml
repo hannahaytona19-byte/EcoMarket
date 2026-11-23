@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<!-- Form half only. Shared by AuthLayout; ids/actions match RegisterController. -->
+<VBox xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.ecomarket.controller.RegisterController"
+      spacing="14" styleClass="auth-form-body">
+
+    <Label text="Sign up" styleClass="auth-form-title"/>
+
+    <Label fx:id="errorLabel" styleClass="auth-error-label" visible="false" managed="false"/>
+
+    <HBox spacing="12">
+        <VBox spacing="5" HBox.hgrow="ALWAYS" styleClass="auth-field">
+            <Label text="First Name" styleClass="auth-field-label"/>
+            <TextField fx:id="firstNameField" promptText="Juan" styleClass="auth-input"/>
+            <Label fx:id="firstNameError" styleClass="auth-field-error" visible="false" managed="false"/>
+        </VBox>
+        <VBox spacing="5" HBox.hgrow="ALWAYS" styleClass="auth-field">
+            <Label text="Last Name" styleClass="auth-field-label"/>
+            <TextField fx:id="lastNameField" promptText="Dela Cruz" styleClass="auth-input"/>
+            <Label fx:id="lastNameError" styleClass="auth-field-error" visible="false" managed="false"/>
+        </VBox>
+    </HBox>
+
+    <VBox spacing="5" styleClass="auth-field">
+        <Label text="Email" styleClass="auth-field-label"/>
+        <TextField fx:id="emailField" promptText="you@example.com" styleClass="auth-input"/>
+        <Label fx:id="emailError" styleClass="auth-field-error" visible="false" managed="false"/>
+    </VBox>
+
+    <VBox spacing="5" styleClass="auth-field">
+        <Label text="Password" styleClass="auth-field-label"/>
+        <HBox spacing="8" styleClass="auth-password-row">
+            <PasswordField fx:id="passwordField" HBox.hgrow="ALWAYS"
+                           promptText="At least 6 characters" styleClass="auth-input"
+                           onKeyPressed="#onEnter"/>
+            <TextField fx:id="passwordVisibleField" HBox.hgrow="ALWAYS"
+                       promptText="At least 6 characters" styleClass="auth-input"
+                       visible="false" managed="false" onKeyPressed="#onEnter"/>
+            <Button fx:id="passwordToggle" text="Show" styleClass="auth-eye-toggle"
+                    onAction="#onTogglePassword" focusTraversable="false"/>
+        </HBox>
+        <Label fx:id="passwordError" styleClass="auth-field-error" visible="false" managed="false"/>
+    </VBox>
+
+    <Button fx:id="submitButton" text="Register" styleClass="auth-primary" onAction="#onRegister"
+            maxWidth="1.7976931348623157E308"/>
+
+    <HBox alignment="CENTER" spacing="6" styleClass="auth-switch-row">
+        <Label text="Already a Member?" styleClass="auth-switch-text"/>
+        <Hyperlink text="Sign in here" styleClass="auth-switch-link" onAction="#onLogin"/>
+    </HBox>
+</VBox>
