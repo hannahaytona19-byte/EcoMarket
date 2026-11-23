@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.ecomarket.controller.BrowseController"
+      styleClass="page-root" VBox.vgrow="ALWAYS">
+    <VBox spacing="12" styleClass="page-body" VBox.vgrow="ALWAYS">
+
+        <!-- Row 1: categories -->
+        <FlowPane fx:id="filterChips" hgap="8" vgap="8" prefWrapLength="900"/>
+
+        <!-- Row 2: attribute dropdowns -->
+        <HBox spacing="10" alignment="CENTER_LEFT" styleClass="filter-row">
+            <Label text="Condition" styleClass="form-label"/>
+            <ComboBox fx:id="conditionCombo" prefWidth="140" promptText="Any"/>
+
+            <Label text="Price" styleClass="form-label"/>
+            <ComboBox fx:id="priceCombo" prefWidth="190" promptText="Any"/>
+
+            <Label text="Location" styleClass="form-label"/>
+            <ComboBox fx:id="locationCombo" prefWidth="140" promptText="Any"/>
+        </HBox>
+
+        <Label fx:id="resultLabel" styleClass="section-subtitle"/>
+
+        <StackPane VBox.vgrow="ALWAYS">
+            <ScrollPane fx:id="scrollPane" fitToWidth="true" VBox.vgrow="ALWAYS"
+                        styleClass="listing-scroll">
+                <FlowPane fx:id="productFlow" hgap="16" vgap="16" prefWrapLength="960"
+                          styleClass="product-grid"/>
+            </ScrollPane>
+            <Label fx:id="emptyLabel" text="No items match these filters."
+                   styleClass="empty-state" visible="false" managed="false"/>
+        </StackPane>
+    </VBox>
+</VBox>

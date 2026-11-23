@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.ecomarket.controller.ListingDetailsController"
+            styleClass="modal-root" prefWidth="560" maxWidth="600">
+    <top>
+        <HBox alignment="CENTER_RIGHT" styleClass="modal-header">
+            <Button text="✕" styleClass="icon-button" onAction="#onClose"/>
+        </HBox>
+    </top>
+
+    <center>
+        <ScrollPane fx:id="detailsScroll" fitToWidth="true" VBox.vgrow="ALWAYS"
+                    styleClass="details-scroll">
+            <VBox spacing="14" styleClass="modal-content">
+                <StackPane fx:id="heroImage" prefHeight="190" minHeight="190" maxHeight="190"
+                           styleClass="image-placeholder detail-hero"/>
+
+                <VBox spacing="6">
+                    <Label fx:id="titleLabel" text="Listing title" styleClass="detail-title" wrapText="true"/>
+                    <HBox spacing="10">
+                        <Label fx:id="priceLabel" text="Php 0.00" styleClass="detail-price"/>
+                        <Label fx:id="conditionChip" text="Condition" styleClass="chip"/>
+                        <Label fx:id="locationChip" text="Location" styleClass="chip"/>
+                    </HBox>
+                    <HBox fx:id="ecoInfo" spacing="10" styleClass="filter-row">
+                        <Label fx:id="ecoBadgeChip" styleClass="chip"/>
+                        <Label fx:id="carbonLabel" styleClass="listing-meta"/>
+                        <Label fx:id="stockLabel" styleClass="listing-meta"/>
+                    </HBox>
+                    <Label fx:id="postedLabel" styleClass="listing-meta"/>
+                </VBox>
+
+                <VBox spacing="4">
+                    <Label text="Description" styleClass="detail-section"/>
+                    <Label fx:id="descriptionLabel" styleClass="detail-body" wrapText="true"/>
+                </VBox>
+
+                <VBox spacing="10" styleClass="card">
+                    <Label text="Seller" styleClass="detail-section"/>
+                    <HBox spacing="12" alignment="CENTER_LEFT">
+                        <Label fx:id="sellerAvatar" styleClass="avatar"/>
+                        <VBox spacing="2">
+                            <Label fx:id="sellerName" styleClass="card-title"/>
+                            <Label fx:id="sellerSince" styleClass="listing-meta"/>
+                        </VBox>
+                    </HBox>
+                </VBox>
+            </VBox>
+        </ScrollPane>
+    </center>
+
+    <bottom>
+        <HBox spacing="10" alignment="CENTER_LEFT" styleClass="modal-actions">
+            <Button fx:id="saveButton" text="♡ Save" styleClass="button-secondary" onAction="#onSave"/>
+            <Button text="Share" styleClass="button-secondary" onAction="#onShare"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Button text="Message Seller" styleClass="button-primary" onAction="#onMessage"/>
+        </HBox>
+    </bottom>
+</BorderPane>

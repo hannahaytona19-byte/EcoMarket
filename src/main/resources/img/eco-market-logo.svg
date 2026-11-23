@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="260" height="120" viewBox="0 0 260 120" role="img" aria-label="EcoMarket">
+  <title>EcoMarket — Reuse. Resell. Rehome.</title>
+  <!-- Source-of-truth artwork for com.ecomarket.ui.LogoView.
+       JavaFX Image has no built-in SVG decoder, so the reusable JavaFX component
+       renders these exact paths with SVGPath nodes instead of loading this file. -->
+  <g transform="translate(130 40)">
+    <path d="M0 20 C0 10 0 4 0 -4" fill="none" stroke="#2F6B2F" stroke-width="2.6" stroke-linecap="round"/>
+    <path d="M0 8 C-12 8 -22 1 -26 -10 C-14 -13 -3 -6 0 8 Z" fill="#4C8C2B" stroke="#2F6B2F" stroke-width="1.1" stroke-linejoin="round"/>
+    <path d="M0 2 C12 2 22 -5 26 -16 C14 -19 3 -12 0 2 Z" fill="#4C8C2B" stroke="#2F6B2F" stroke-width="1.1" stroke-linejoin="round"/>
+  </g>
+  <text x="130" y="104" text-anchor="middle"
+        font-family="Georgia, 'Times New Roman', serif" font-size="34" font-weight="bold"
+        fill="#1F2A1F">EcoMarket</text>
+</svg>

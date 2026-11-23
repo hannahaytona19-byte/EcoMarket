@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.ecomarket.ui.LogoView?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<StackPane xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="com.ecomarket.controller.RegisterController"
+           styleClass="landing-root">
+    <VBox spacing="0" maxWidth="980" VBox.vgrow="ALWAYS">
+        <HBox alignment="CENTER_LEFT" spacing="12" styleClass="navbar">
+            <LogoView fx:id="navbarLogo"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Label text="Already have an account?" styleClass="section-subtitle"/>
+            <Hyperlink text="Sign in" styleClass="nav-link" onAction="#onLogin"/>
+        </HBox>
+
+        <VBox alignment="CENTER" spacing="18" VBox.vgrow="ALWAYS">
+            <VBox spacing="10" styleClass="auth-card">
+                <LogoView fx:id="cardLogo"/>
+                <Label text="Register" styleClass="form-title"/>
+                <Label text="Reuse. Resell. Rehome —" styleClass="section-subtitle"/>
+                <Label fx:id="errorLabel" styleClass="error-label" visible="false" managed="false"/>
+
+                <HBox spacing="12">
+                    <VBox spacing="4" HBox.hgrow="ALWAYS">
+                        <Label text="First Name" styleClass="form-label"/>
+                        <TextField fx:id="firstNameField" promptText="Juan" styleClass="input-field"/>
+                    </VBox>
+                    <VBox spacing="4" HBox.hgrow="ALWAYS">
+                        <Label text="Last Name" styleClass="form-label"/>
+                        <TextField fx:id="lastNameField" promptText="Dela Cruz" styleClass="input-field"/>
+                    </VBox>
+                </HBox>
+
+                <VBox spacing="4">
+                    <Label text="Email" styleClass="form-label"/>
+                    <TextField fx:id="emailField" promptText="you@example.com" styleClass="input-field"/>
+                </VBox>
+
+                <VBox spacing="4">
+                    <Label text="Password" styleClass="form-label"/>
+                    <PasswordField fx:id="passwordField" promptText="At least 6 characters"
+                                   styleClass="input-field" onKeyPressed="#onEnter"/>
+                </VBox>
+
+                <Button text="Register" styleClass="button-primary" onAction="#onRegister"
+                        maxWidth="1.7976931348623157E308" defaultButton="true"/>
+                <HBox alignment="CENTER" spacing="6">
+                    <Label text="Already have an account?" styleClass="section-subtitle"/>
+                    <Hyperlink text="Sign in" styleClass="nav-link" onAction="#onLogin"/>
+                </HBox>
+            </VBox>
+        </VBox>
+    </VBox>
+</StackPane>

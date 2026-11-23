@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.ecomarket.controller.MessagesController"
+            styleClass="page-root">
+
+    <left>
+        <VBox spacing="10" prefWidth="330" styleClass="chat-sidebar">
+            <TextField fx:id="chatSearchField" promptText="Search chats..." styleClass="search-field"
+                       maxWidth="1.7976931348623157E308"/>
+            <ListView fx:id="conversationList" VBox.vgrow="ALWAYS" styleClass="conversation-list"/>
+        </VBox>
+    </left>
+
+    <center>
+        <VBox spacing="0">
+            <HBox fx:id="chatHeader" spacing="12" alignment="CENTER_LEFT" styleClass="chat-header">
+                <Label fx:id="headerAvatar" styleClass="avatar"/>
+                <VBox spacing="2">
+                    <Label fx:id="headerName" styleClass="card-title"/>
+                    <Label fx:id="headerStatus" styleClass="listing-meta"/>
+                </VBox>
+
+                <Region HBox.hgrow="ALWAYS"/>
+
+                <VBox fx:id="pinnedBox" spacing="2" styleClass="pinned-card">
+                    <Label text="Pinned listing" styleClass="form-hint"/>
+                    <Label fx:id="pinnedTitle" styleClass="pinned-title"/>
+                    <Label fx:id="pinnedPrice" styleClass="pinned-price"/>
+                </VBox>
+
+                <Button fx:id="meetupButton" text="Suggest meetup" styleClass="button-secondary"
+                        onAction="#onSuggestMeetup"/>
+            </HBox>
+
+            <ScrollPane fx:id="messageScroll" fitToWidth="true" VBox.vgrow="ALWAYS"
+                        styleClass="chat-scroll">
+                <VBox fx:id="messageBox" spacing="4"/>
+            </ScrollPane>
+
+            <HBox spacing="10" alignment="CENTER_LEFT" styleClass="message-bar">
+                <TextField fx:id="messageField" promptText="Type a message..." styleClass="message-input"
+                           onKeyPressed="#onEnter" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS"/>
+                <Button text="Send" styleClass="button-primary" onAction="#onSend" defaultButton="true"/>
+            </HBox>
+        </VBox>
+    </center>
+</BorderPane>

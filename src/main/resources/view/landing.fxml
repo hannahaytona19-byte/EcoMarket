@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.ecomarket.ui.LogoView?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<ScrollPane fx:id="landingScroll" fitToWidth="true"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.ecomarket.controller.LandingController">
+    <VBox spacing="0" styleClass="landing-root">
+
+        <!-- Navbar: logo left, links centered, auth right -->
+        <HBox alignment="CENTER_LEFT" spacing="14" styleClass="navbar">
+            <LogoView fx:id="headerLogo"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <HBox fx:id="navLinks" alignment="CENTER" spacing="18">
+                <Hyperlink text="Browse" styleClass="nav-link" onAction="#onBrowse"/>
+                <Hyperlink text="Categories" styleClass="nav-link" onAction="#onCategories"/>
+                <Hyperlink text="How It Works" styleClass="nav-link" onAction="#onHowItWorks"/>
+            </HBox>
+            <Region HBox.hgrow="ALWAYS"/>
+            <HBox alignment="CENTER_RIGHT" spacing="10">
+                <Button text="Login" styleClass="button-secondary" onAction="#onLogin"/>
+                <Button text="Register" styleClass="button-primary" onAction="#onRegister"/>
+            </HBox>
+        </HBox>
+
+        <!-- Hero: copy left, 2x2 image grid right (stacked by controller on narrow windows) -->
+        <VBox fx:id="heroSection" spacing="0" styleClass="hero">
+            <HBox fx:id="heroColumns" spacing="36" alignment="CENTER_LEFT">
+                <VBox fx:id="heroCopy" spacing="14" styleClass="hero-copy" HBox.hgrow="ALWAYS">
+                    <Label text="Give pre-loved items a second life." styleClass="hero-title" wrapText="true"/>
+                    <Label text="EcoMarket connects neighbors who want to reuse, resell and rehome good things. Find something you love, chat with the seller, and meet up locally."
+                           styleClass="hero-subtitle" wrapText="true"/>
+                    <HBox spacing="10">
+                        <Button text="Start Browsing" styleClass="button-primary" onAction="#onBrowse"/>
+                        <Button text="Post an Item" styleClass="button-secondary" onAction="#onPost"/>
+                    </HBox>
+                </VBox>
+
+                <GridPane fx:id="heroPhotos" hgap="14" vgap="14" styleClass="hero-photos">
+                    <StackPane GridPane.columnIndex="0" GridPane.rowIndex="0"
+                               prefWidth="250" prefHeight="140" styleClass="image-placeholder">
+                        <Label text="Pre-loved fashion" styleClass="placeholder-caption"/>
+                    </StackPane>
+                    <StackPane GridPane.columnIndex="1" GridPane.rowIndex="0"
+                               prefWidth="250" prefHeight="140" styleClass="image-placeholder">
+                        <Label text="Refurbished tech" styleClass="placeholder-caption"/>
+                    </StackPane>
+                    <StackPane GridPane.columnIndex="0" GridPane.rowIndex="1"
+                               prefWidth="250" prefHeight="140" styleClass="image-placeholder">
+                        <Label text="Home &amp; garden finds" styleClass="placeholder-caption"/>
+                    </StackPane>
+                    <StackPane GridPane.columnIndex="1" GridPane.rowIndex="1"
+                               prefWidth="250" prefHeight="140" styleClass="image-placeholder">
+                        <Label text="Handmade decor" styleClass="placeholder-caption"/>
+                    </StackPane>
+                </GridPane>
+            </HBox>
+        </VBox>
+
+        <!-- Categories -->
+        <VBox fx:id="categoriesSection" spacing="14" styleClass="section" alignment="CENTER">
+            <VBox spacing="4" alignment="CENTER">
+                <Label text="Shop by categories" styleClass="section-title" textAlignment="CENTER"/>
+                <Label text="A little something for every corner of your home and life."
+                       styleClass="section-subtitle" textAlignment="CENTER"/>
+            </VBox>
+            <FlowPane fx:id="categoryFlow" hgap="12" vgap="12" prefWrapLength="900"
+                      alignment="CENTER"/>
+        </VBox>
+
+        <!-- How it works -->
+        <VBox fx:id="howSection" spacing="14" styleClass="section spaced-section">
+            <Label text="How it works" styleClass="section-title"/>
+            <HBox spacing="18" styleClass="section-card-row">
+                <VBox spacing="8" styleClass="how-card" HBox.hgrow="ALWAYS">
+                    <Label text="1" styleClass="step-number"/>
+                    <Label text="Post" styleClass="card-title"/>
+                    <Label text="Take clear photos, add a short description, and set your price."
+                           styleClass="card-body"/>
+                </VBox>
+                <VBox spacing="8" styleClass="how-card" HBox.hgrow="ALWAYS">
+                    <Label text="2" styleClass="step-number"/>
+                    <Label text="Chat" styleClass="card-title"/>
+                    <Label text="Message buyers or sellers to ask questions and agree on details."
+                           styleClass="card-body"/>
+                </VBox>
+                <VBox spacing="8" styleClass="how-card" HBox.hgrow="ALWAYS">
+                    <Label text="3" styleClass="step-number"/>
+                    <Label text="Meetup" styleClass="card-title"/>
+                    <Label text="Agree on a safe, public place and time to hand over the item."
+                           styleClass="card-body"/>
+                </VBox>
+            </HBox>
+        </VBox>
+
+        <!-- Why EcoMarket -->
+        <VBox spacing="14" styleClass="section spaced-section">
+            <Label text="Why EcoMarket?" styleClass="section-title"/>
+            <HBox spacing="18" styleClass="section-card-row">
+                <VBox spacing="6" styleClass="why-card" HBox.hgrow="ALWAYS">
+                    <Label text="Reduce waste" styleClass="card-title"/>
+                    <Label text="Every item reused is one less thing in a landfill."
+                           styleClass="card-body"/>
+                </VBox>
+                <VBox spacing="6" styleClass="why-card" HBox.hgrow="ALWAYS">
+                    <Label text="Save and earn" styleClass="card-title"/>
+                    <Label text="Find good items at low prices and earn from things you no longer use."
+                           styleClass="card-body"/>
+                </VBox>
+                <VBox spacing="6" styleClass="why-card" HBox.hgrow="ALWAYS">
+                    <Label text="Shop local" styleClass="card-title"/>
+                    <Label text="Trade with people in your neighborhood and keep value in your community."
+                           styleClass="card-body"/>
+                </VBox>
+            </HBox>
+        </VBox>
+
+        <!-- Footer -->
+        <HBox alignment="CENTER_LEFT" spacing="10" styleClass="footer">
+            <LogoView fx:id="footerLogo"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Label text="Reuse. Resell. Rehome." styleClass="section-subtitle"/>
+        </HBox>
+    </VBox>
+</ScrollPane>

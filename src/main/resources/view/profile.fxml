@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.ecomarket.controller.ProfileController"
+      styleClass="page-root" VBox.vgrow="ALWAYS">
+    <VBox spacing="16" styleClass="page-body" VBox.vgrow="ALWAYS">
+        <HBox spacing="16" alignment="CENTER_LEFT" styleClass="card">
+            <Label fx:id="profileAvatar" styleClass="avatar"/>
+            <VBox spacing="3">
+                <Label fx:id="profileName" styleClass="card-title"/>
+                <Label fx:id="profileEmail" styleClass="listing-meta"/>
+                <Label fx:id="profileLocation" styleClass="listing-meta"/>
+                <Label fx:id="profileSince" styleClass="listing-meta"/>
+                <Label fx:id="profileEco" styleClass="listing-meta"/>
+            </VBox>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Button fx:id="editButton" text="Edit Profile" styleClass="button-secondary"
+                    onAction="#onEdit"/>
+        </HBox>
+
+        <TabPane VBox.vgrow="ALWAYS">
+            <Tab text="My Listings" closable="false">
+                <content>
+                    <ScrollPane fitToWidth="true">
+                        <FlowPane fx:id="myListingsFlow" hgap="16" vgap="16" prefWrapLength="900"
+                                  styleClass="product-grid"/>
+                    </ScrollPane>
+                </content>
+            </Tab>
+            <Tab text="Saved Items" closable="false">
+                <content>
+                    <ScrollPane fitToWidth="true">
+                        <FlowPane fx:id="savedFlow" hgap="16" vgap="16" prefWrapLength="900"
+                                  styleClass="product-grid"/>
+                    </ScrollPane>
+                </content>
+            </Tab>
+        </TabPane>
+    </VBox>
+</VBox>

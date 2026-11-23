@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.ecomarket.controller.ListingFormController"
+      spacing="12" styleClass="form-card">
+    <Label fx:id="formTitle" text="Post New Item" styleClass="form-title"/>
+    <Label text="Photos (up to 4) — click a slot to add a mock photo" styleClass="form-label"/>
+    <HBox fx:id="photoSlots" spacing="10"/>
+
+    <VBox spacing="4">
+        <Label text="Title" styleClass="form-label"/>
+        <TextField fx:id="titleField" promptText="e.g. Rattan side table" styleClass="input-field"/>
+    </VBox>
+
+    <HBox spacing="12">
+        <VBox spacing="4" HBox.hgrow="ALWAYS">
+            <Label text="Category" styleClass="form-label"/>
+            <ComboBox fx:id="categoryCombo" maxWidth="1.7976931348623157E308"/>
+        </VBox>
+        <VBox spacing="4" HBox.hgrow="ALWAYS">
+            <Label text="Condition" styleClass="form-label"/>
+            <ComboBox fx:id="conditionCombo" maxWidth="1.7976931348623157E308"/>
+        </VBox>
+    </HBox>
+
+    <HBox spacing="12">
+        <VBox spacing="4" HBox.hgrow="ALWAYS">
+            <Label text="Price (Php)" styleClass="form-label"/>
+            <TextField fx:id="priceField" promptText="18.50" styleClass="input-field"/>
+        </VBox>
+        <VBox spacing="4" HBox.hgrow="ALWAYS">
+            <Label text="Stock quantity" styleClass="form-label"/>
+            <TextField fx:id="stockField" promptText="10" styleClass="input-field"/>
+        </VBox>
+        <VBox spacing="4" HBox.hgrow="ALWAYS">
+            <Label text="CO₂ saved (kg)" styleClass="form-label"/>
+            <TextField fx:id="carbonField" promptText="2.40" styleClass="input-field"/>
+        </VBox>
+    </HBox>
+
+    <HBox spacing="12">
+        <VBox spacing="4" HBox.hgrow="ALWAYS">
+            <Label text="Location" styleClass="form-label"/>
+            <TextField fx:id="locationField" promptText="Cavite" styleClass="input-field"/>
+        </VBox>
+        <VBox spacing="4" HBox.hgrow="ALWAYS">
+            <Label text="Eco badge" styleClass="form-label"/>
+            <TextField fx:id="ecoBadgeField" promptText="Plastic-Free" styleClass="input-field"/>
+        </VBox>
+    </HBox>
+
+    <VBox spacing="4">
+        <Label text="Image URL (optional)" styleClass="form-label"/>
+        <TextField fx:id="imageUrlField" promptText="https://…" styleClass="input-field"/>
+    </VBox>
+
+    <VBox spacing="4">
+        <Label text="Description" styleClass="form-label"/>
+        <TextArea fx:id="descriptionField" promptText="Tell buyers about the item..."
+                  prefRowCount="4" wrapText="true" styleClass="input-field"/>
+    </VBox>
+
+    <Label fx:id="errorLabel" styleClass="error-label" visible="false" managed="false"/>
+
+    <HBox spacing="10" alignment="CENTER_RIGHT">
+        <Region HBox.hgrow="ALWAYS"/>
+        <Button text="Cancel" styleClass="button-secondary" onAction="#onCancel"/>
+        <Button fx:id="saveButton" text="Post Item" styleClass="button-primary" onAction="#onSave"/>
+    </HBox>
+</VBox>

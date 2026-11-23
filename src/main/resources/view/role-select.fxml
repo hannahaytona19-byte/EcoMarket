@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.ecomarket.ui.LogoView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<StackPane xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="com.ecomarket.controller.RoleSelectController"
+           styleClass="landing-root">
+    <padding>
+        <Insets top="32" right="40" bottom="32" left="40"/>
+    </padding>
+
+    <VBox alignment="CENTER" spacing="16" maxWidth="820">
+        <LogoView fx:id="roleLogo"/>
+        <Label text="Connect with buyers and sellers to trade pre-loved items safely."
+               styleClass="section-subtitle" wrapText="true" textAlignment="CENTER"/>
+
+        <HBox alignment="CENTER" spacing="22" styleClass="role-card-row">
+            <Button styleClass="role-card" onAction="#onBuyer">
+                <graphic>
+                    <VBox alignment="CENTER" spacing="8" styleClass="role-card-content">
+                        <Label text="Buyer" styleClass="role-title"/>
+                        <Label text="Browse, shop, order, pay, and track your purchases."
+                               styleClass="role-card-copy" wrapText="true" prefWidth="230"
+                               textAlignment="CENTER"/>
+                    </VBox>
+                </graphic>
+            </Button>
+
+            <Button styleClass="role-card" onAction="#onSeller">
+                <graphic>
+                    <VBox alignment="CENTER" spacing="8" styleClass="role-card-content">
+                        <Label text="Seller" styleClass="role-title"/>
+                        <Label text="List, sell, manage orders, ship items, and withdraw your earnings."
+                               styleClass="role-card-copy" wrapText="true" prefWidth="230"
+                               textAlignment="CENTER"/>
+                    </VBox>
+                </graphic>
+            </Button>
+        </HBox>
+
+        <Hyperlink text="← Back to home" styleClass="nav-link" onAction="#onBack"/>
+    </VBox>
+</StackPane>

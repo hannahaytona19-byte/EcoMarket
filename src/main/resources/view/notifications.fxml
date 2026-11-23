@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.ecomarket.controller.NotificationsController"
+      styleClass="page-root" VBox.vgrow="ALWAYS">
+    <VBox spacing="12" styleClass="page-body" VBox.vgrow="ALWAYS">
+        <HBox spacing="8">
+            <ToggleButton fx:id="allToggle" text="All" styleClass="chip" onAction="#onAll"/>
+            <ToggleButton fx:id="unreadToggle" text="Unread" styleClass="chip" onAction="#onUnread"/>
+        </HBox>
+
+        <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS">
+            <VBox spacing="4">
+                <Label text="Today" styleClass="group-label"/>
+                <ListView fx:id="todayList" prefHeight="190" styleClass="notification-list"/>
+
+                <Label text="Yesterday" styleClass="group-label"/>
+                <ListView fx:id="yesterdayList" prefHeight="170" styleClass="notification-list"/>
+
+                <Label text="Nothing to follow." styleClass="empty-state"/>
+            </VBox>
+        </ScrollPane>
+    </VBox>
+</VBox>
