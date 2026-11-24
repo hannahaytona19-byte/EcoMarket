@@ -78,7 +78,7 @@ public class BrowseController {
                 .toList();
         List<String> orderedLocations = new ArrayList<>();
         orderedLocations.add(ANY);
-        List.of("Cavite", "Taguig", "Batangas").stream()
+        List.of("Cavite", "Laguna", "Batangas", "Rizal", "Quezon").stream()
                 .filter(dataLocations::contains)
                 .forEach(orderedLocations::add);
         dataLocations.stream()

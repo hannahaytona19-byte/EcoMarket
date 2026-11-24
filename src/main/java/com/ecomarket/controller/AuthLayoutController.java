@@ -10,19 +10,35 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
+import java.net.URL;
+
 /**
  * Single persistent layout for both auth screens. The backdrop, glass container
  * and back button are created once; switching login <-> register only moves the
- * two halves and cross-fades their content. The leaf backdrop itself is declared
- * in ecomarket.css so a -fx-background-color rule cannot discard it.
+ * two halves and cross-fades their content.
  */
 public class AuthLayoutController {
+
+    /**
+     * Drop a leaf image at one of these paths to replace the CSS gradient.
+     * Nothing else needs to change; the first resource found is used as a
+     * full-screen background and the dark overlay above it keeps text readable.
+     */
+    private static final String[] BACKDROP_CANDIDATES = {
+            "/img/auth-leaves.jpg", "/img/auth-leaves.png"
+    };
 
     private static final String LOGIN_HEADING = "Welcome Back";
     private static final String LOGIN_COPY =
@@ -55,6 +71,8 @@ public class AuthLayoutController {
 
     @FXML
     private void initialize() {
+        installBackdrop();
+
         // Rounded clipping keeps the sliding halves inside the glass container.
         Rectangle clip = new Rectangle();
         clip.setArcWidth(28);
@@ -247,8 +265,28 @@ public class AuthLayoutController {
     }
 
     // ------------------------------------------------------------------
-    // Accessibility
+    // Backdrop / accessibility
     // ------------------------------------------------------------------
+
+    private void installBackdrop() {
+        for (String path : BACKDROP_CANDIDATES) {
+            URL resource = getClass().getResource(path);
+            if (resource == null) {
+                continue;
+            }
+            Image image = new Image(resource.toExternalForm());
+            if (image.isError()) {
+                continue;
+            }
+            BackgroundImage background = new BackgroundImage(image,
+                    BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT,
+                    BackgroundPosition.CENTER,
+                    new BackgroundSize(100, 100, true, true, false, true));
+            authScreen.setBackground(new Background(background));
+            return;
+        }
+        // No file: the .auth-screen CSS gradient stays in place.
+    }
 
     /**
      * JavaFX has no prefers-reduced-motion API. Support the usual desktop

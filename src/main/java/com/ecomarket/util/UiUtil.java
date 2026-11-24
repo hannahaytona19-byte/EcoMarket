@@ -11,8 +11,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.Dialog;
-import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.scene.input.KeyCode;
@@ -126,30 +124,24 @@ public final class UiUtil {
 
     public static void showInfo(String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION, message, ButtonType.OK);
-        styleDialog(alert);
+        alert.setHeaderText(null);
+        alert.setTitle("EcoMarket");
         alert.showAndWait();
     }
 
     public static void showError(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR, message, ButtonType.OK);
-        styleDialog(alert);
+        alert.setHeaderText(null);
+        alert.setTitle("EcoMarket");
         alert.showAndWait();
     }
 
     public static boolean confirm(String message) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, message,
                 ButtonType.CANCEL, ButtonType.OK);
-        styleDialog(alert);
+        alert.setHeaderText(null);
+        alert.setTitle("EcoMarket");
         return alert.showAndWait().filter(ButtonType.OK::equals).isPresent();
-    }
-
-    /** One title and one dark theme for every app dialog. */
-    private static void styleDialog(Dialog<?> dialog) {
-        dialog.setTitle("EcoMarket");
-        dialog.setHeaderText(null);
-        DialogPane pane = dialog.getDialogPane();
-        pane.getStyleClass().add("eco-dialog");
-        pane.getStylesheets().add(STYLESHEET);
     }
 
     public static void showListingDetails(Listing listing) {

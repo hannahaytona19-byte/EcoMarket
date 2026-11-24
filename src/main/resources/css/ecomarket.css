@@ -440,24 +440,19 @@
 
 /* ---------- Auth screens: shared dark split-screen layout ------------------- */
 /*
- * The leaf photo must be declared here, not in AuthLayoutController: any
- * -fx-background-color rule in the stylesheet replaces the whole JavaFX
- * Background object, which silently drops a programmatically added image.
- * The gradient remains as a fallback if the JPEG is missing from the build.
+ * Full-screen fallback. To use a leaf photo, drop it at
+ * src/main/resources/img/auth-leaves.jpg (or .png); AuthLayoutController
+ * installs it automatically beneath this overlay — no CSS edit needed.
  */
 .auth-screen {
-    -fx-background-color: linear-gradient(to bottom, #0C3521 0%, #04120B 100%);
-    -fx-background-image: url("/img/auth-leaves.jpg");
-    -fx-background-repeat: no-repeat;
-    -fx-background-position: center;
-    -fx-background-size: cover;
+    -fx-background-color: linear-gradient(to bottom, #0C3521 0%, #061A10 100%);
     -fx-font-family: "Segoe UI", "Arial", sans-serif;
 }
 
-/* Dark green veil: strong enough for white text, light enough for leaves. */
-.auth-backdrop-overlay {
-    -fx-background-color: linear-gradient(to bottom,
-            rgba(3, 24, 14, 0.62), rgba(3, 24, 14, 0.34));
+    .auth-backdrop-overlay {
+        -fx-background-color: linear-gradient(to bottom,
+        rgba(4, 24, 14, 0.55), rgba(4, 24, 14, 0.30));
+    }
 }
 
 .auth-back-row { -fx-padding: 22 26; }
@@ -486,8 +481,6 @@
 }
 
 .auth-half { -fx-background-color: transparent; }
-.auth-info { -fx-background-color: rgba(5, 34, 20, 0.38); }
-.auth-form { -fx-background-color: rgba(2, 12, 8, 0.74); }
 .auth-info-content { -fx-padding: 48 44 48 44; }
 .auth-logo .logo-leaf { -fx-fill: white; -fx-stroke: white; }
 .auth-logo .logo-stem { -fx-stroke: white; }
@@ -561,99 +554,3 @@
     -fx-padding: 0 2 0 2;
 }
 .auth-switch-link:hover { -fx-text-fill: #8CEAB4; -fx-underline: true; }
-
-/* Password reveal control (no extra dependency; plain text button). */
-.auth-password-row { -fx-spacing: 8; -fx-alignment: center-right; }
-.auth-eye-toggle {
-    -fx-background-color: transparent;
-    -fx-border-color: transparent transparent rgba(255, 255, 255, 0.38) transparent;
-    -fx-border-width: 0 0 1 0;
-    -fx-text-fill: #C6D4C8;
-    -fx-font-size: 12px;
-    -fx-padding: 6 4 8 4;
-    -fx-min-width: 44;
-}
-.auth-eye-toggle:hover { -fx-text-fill: #5FD38F; }
-
-/* Inline validation sits directly under its field. */
-.auth-field-error {
-    -fx-text-fill: #FFB4A8;
-    -fx-font-size: 11px;
-    -fx-wrap-text: true;
-}
-
-/* ---------- Landing / role select: dark green companion theme --------------- */
-.landing-root {
-    -fx-background-color: linear-gradient(to bottom, #0C3521 0%, #04120B 100%);
-}
-.landing-root .navbar,
-.landing-root .footer {
-    -fx-background-color: rgba(4, 24, 14, 0.55);
-    -fx-border-color: rgba(255, 255, 255, 0.12);
-}
-.landing-root .hero-title,
-.landing-root .section-title,
-.landing-root .role-title,
-.landing-root .card-title { -fx-text-fill: white; }
-.landing-root .hero-subtitle,
-.landing-root .section-subtitle,
-.landing-root .card-body,
-.landing-root .role-card-copy,
-.landing-root .placeholder-caption { -fx-text-fill: #D9E5DA; }
-.landing-root .footer .section-subtitle { -fx-text-fill: #5FD38F; }
-.landing-root .nav-link { -fx-text-fill: #EAF3EA; }
-.landing-root .nav-link:hover { -fx-text-fill: #5FD38F; }
-.landing-root .step-number { -fx-text-fill: #5FD38F; }
-.landing-root .role-card,
-.landing-root .how-card,
-.landing-root .why-card,
-.landing-root .category-card {
-    -fx-background-color: rgba(8, 38, 24, 0.62);
-    -fx-border-color: rgba(255, 255, 255, 0.22);
-    -fx-border-width: 1;
-}
-.landing-root .role-card:hover,
-.landing-root .role-card:focused,
-.landing-root .how-card:hover,
-.landing-root .why-card:hover,
-.landing-root .category-card:hover {
-    -fx-background-color: rgba(0, 128, 74, 0.35);
-    -fx-border-color: #5FD38F;
-}
-.landing-root .button-secondary {
-    -fx-background-color: transparent;
-    -fx-text-fill: #EAF3EA;
-    -fx-border-color: #5FD38F;
-}
-.landing-root .button-secondary:hover { -fx-background-color: rgba(0, 128, 74, 0.30); }
-.landing-root .button-primary { -fx-background-color: #00804A; -fx-border-color: #0A8F4F; }
-.landing-root .button-primary:hover { -fx-background-color: #009557; }
-.landing-root .chip {
-    -fx-text-fill: #EAF3EA;
-    -fx-border-color: rgba(255, 255, 255, 0.35);
-}
-.landing-root .chip:hover { -fx-background-color: rgba(0, 128, 74, 0.35); }
-.landing-root .image-placeholder {
-    -fx-background-color: rgba(255, 255, 255, 0.06);
-    -fx-border-color: rgba(255, 255, 255, 0.18);
-}
-.landing-root .logo-leaf { -fx-fill: #5FD38F; -fx-stroke: white; }
-.landing-root .logo-stem { -fx-stroke: white; }
-.landing-root .logo-wordmark { -fx-fill: white; }
-
-/* ---------- Shared dark dialogs (title is always "EcoMarket") --------------- */
-.dialog-pane.eco-dialog {
-    -fx-background-color: #0B2A1B;
-    -fx-border-color: rgba(255, 255, 255, 0.18);
-    -fx-border-width: 1;
-}
-.dialog-pane.eco-dialog .header-panel { -fx-background-color: #0B2A1B; }
-.dialog-pane.eco-dialog .header-panel .label,
-.dialog-pane.eco-dialog .content.label { -fx-text-fill: #EAF3EA; }
-.dialog-pane.eco-dialog .button {
-    -fx-background-color: #00804A;
-    -fx-text-fill: white;
-    -fx-background-radius: 8;
-    -fx-border-radius: 8;
-}
-.dialog-pane.eco-dialog .button:hover { -fx-background-color: #009557; }
